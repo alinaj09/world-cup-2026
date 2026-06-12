@@ -250,8 +250,7 @@ async function fetchESPNData() {
         
         if (updated) {
             propagateKnockoutWinners();
-            calculateLeaderboard();
-            renderRound1Tab();
+            saveState();
             console.log("ESPN data applied successfully.");
         }
     } catch (e) {
@@ -582,6 +581,17 @@ function renderAdminPanel() {
         
         newBtn.addEventListener('click', () => {
             generateR32Bracket();
+        });
+    }
+
+    // Populate Admin View Predictions Dropdown
+    const adminViewParticipant = document.getElementById('admin-view-participant');
+    if (adminViewParticipant && adminViewParticipant.options.length <= 1) {
+        APP_DATA.participants.forEach(p => {
+            const opt = document.createElement('option');
+            opt.value = p;
+            opt.textContent = p;
+            adminViewParticipant.appendChild(opt);
         });
     }
 }
@@ -1328,4 +1338,53 @@ document.addEventListener('DOMContentLoaded', () => {
     loadPredictionsFromSheet();
     
     document.getElementById('save-results-btn')?.addEventListener('click', saveAdminResults);
+    
+    // Bind Admin View Predictions Button
+    const viewPredsBtn = document.getElementById('admin-view-preds-btn');
+    if (viewPredsBtn) {
+        viewPredsBtn.addEventListener('click', () => {
+            const pName = document.getElementById('admin-view-participant').value;
+            const round = document.getElementById('admin-view-round').value;
+            const resContainer = document.getElementById('admin-view-preds-result');
+            
+            if (!pName || !round) {
+                resContainer.innerHTML = '<p style="text-align:center; color:#ff4d4d;">الرجاء اختيار المشارك والدور</p>';
+                return;
+            }
+            
+            const preds = (appState.predictions[pName] || {})[round];
+            if (!preds || Object.keys(preds).length === 0) {
+                resContainer.innerHTML = '<p style="text-align:center; opacity:0.7;">لا توجد توقعات لهذا المشارك في هذا الدور</p>';
+                return;
+            }
+            
+            let html = '<ul style="list-style:none; padding:0; margin:0;">';
+            if (round === 'qualifiers') {
+                Object.keys(preds).forEach(g => {
+                    html += `<li style="padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.1);">
+                        <strong>مجموعة ${g}:</strong> الأول (${preds[g].first || '-'}) - الثاني (${preds[g].second || '-'})
+                    </li>`;
+                });
+            } else {
+                Object.keys(preds).forEach(matchId => {
+                    // Try to find match names
+                    let matchObj = null;
+                    const allMatches = [
+                        ...APP_DATA.matchesR1, ...APP_DATA.matchesR2, ...APP_DATA.matchesR3,
+                        ...(appState.knockoutMatches.r32 || []), ...(appState.knockoutMatches.r16 || []),
+                        ...(appState.knockoutMatches.qf || []), ...(appState.knockoutMatches.sf || []), ...(appState.knockoutMatches.final || [])
+                    ];
+                    matchObj = allMatches.find(m => m.id === matchId);
+                    
+                    const matchText = matchObj ? `${matchObj.home} ضد ${matchObj.away}` : `مباراة ${matchId}`;
+                    html += `<li style="padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between;">
+                        <span>${matchText}</span>
+                        <span style="font-weight:bold; color:var(--primary-color);">${preds[matchId].home} - ${preds[matchId].away}</span>
+                    </li>`;
+                });
+            }
+            html += '</ul>';
+            resContainer.innerHTML = html;
+        });
+    }
 });

@@ -159,6 +159,31 @@
                         <h3>أفضل 8 ثوالث</h3>
                         <div id="admin-third-place"></div>
                     </div>
+                    
+                    <div class="admin-panel" style="margin-top: 2rem;">
+                        <h3>عرض التوقعات للمشاركين 👁️</h3>
+                        <div class="form-group" style="display:flex; gap:10px; margin-bottom:15px; flex-wrap:wrap;">
+                            <select id="admin-view-participant" class="score-input" style="flex:1; min-width:150px;">
+                                <option value="">-- اختر المشارك --</option>
+                            </select>
+                            <select id="admin-view-round" class="score-input" style="flex:1; min-width:150px;">
+                                <option value="">-- اختر الدور --</option>
+                                <option value="r1">الجولة 1</option>
+                                <option value="r2">الجولة 2</option>
+                                <option value="r3">الجولة 3</option>
+                                <option value="qualifiers">المتأهلين</option>
+                                <option value="r32">دور الـ 32</option>
+                                <option value="r16">دور الـ 16</option>
+                                <option value="qf">ربع النهائي</option>
+                                <option value="sf">نصف النهائي</option>
+                                <option value="final">النهائي</option>
+                            </select>
+                            <button id="admin-view-preds-btn" class="btn primary-btn" style="min-width:100px;">عرض</button>
+                        </div>
+                        <div id="admin-view-preds-result" style="background:rgba(255,255,255,0.05); padding:15px; border-radius:8px; min-height: 100px;">
+                            <p style="text-align:center; opacity:0.7;">اختر المشارك والدور لعرض التوقعات</p>
+                        </div>
+                    </div>
                 </div>
                 <div class="admin-actions" style="margin-top: 2rem;">
                     <button id="save-results-btn" class="btn success-btn">حفظ النتائج وحساب النقاط</button>
