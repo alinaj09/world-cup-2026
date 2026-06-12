@@ -1,0 +1,302 @@
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap');
+
+:root {
+    --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --card-border: rgba(255, 255, 255, 0.1);
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --accent-color: #10b981;
+    --accent-glow: rgba(16, 185, 129, 0.4);
+    --danger-color: #ef4444;
+    --gold: #fbbf24;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Tajawal', sans-serif;
+}
+
+body {
+    background: var(--bg-gradient);
+    color: var(--text-primary);
+    min-height: 100vh;
+    direction: rtl;
+    overflow-x: hidden;
+}
+
+/* Background Animated Orbs */
+body::before, body::after {
+    content: '';
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    filter: blur(120px);
+    z-index: -1;
+    animation: float 20s infinite ease-in-out alternate;
+}
+
+body::before {
+    background: rgba(16, 185, 129, 0.15);
+    top: -200px;
+    right: -200px;
+}
+
+body::after {
+    background: rgba(99, 102, 241, 0.15);
+    bottom: -200px;
+    left: -200px;
+    animation-delay: -10s;
+}
+
+@keyframes float {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(50px, 50px) scale(1.1); }
+}
+
+/* Container & Header */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 3rem;
+    animation: fadeInDown 0.8s ease-out;
+}
+
+header h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    background: linear-gradient(to right, #10b981, #3b82f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 30px rgba(16, 185, 129, 0.2);
+}
+
+header p {
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+}
+
+/* Navigation */
+.nav-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+    background: rgba(0,0,0,0.2);
+    padding: 0.5rem;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    flex-wrap: wrap;
+}
+
+.nav-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    padding: 0.8rem 1.5rem;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+    color: var(--text-primary);
+    background: rgba(255,255,255,0.05);
+}
+
+.nav-btn.active {
+    background: var(--accent-color);
+    color: white;
+    box-shadow: 0 0 20px var(--accent-glow);
+}
+
+/* Tab Panes */
+.tab-pane {
+    display: none;
+    animation: fadeIn 0.4s ease-out;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Glassmorphism Cards */
+.match-card, .leaderboard-table-container {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.match-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    border-color: rgba(255,255,255,0.2);
+}
+
+.match-title {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Forms & Inputs */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+select {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    color: white;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    appearance: none;
+}
+
+select:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 15px var(--accent-glow);
+}
+
+select option {
+    background: #1e1b4b;
+    color: white;
+}
+
+.score-input {
+    width: 70px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding: 0.5rem;
+}
+
+/* Buttons */
+.btn {
+    width: 100%;
+    padding: 1rem;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.primary-btn {
+    background: linear-gradient(135deg, var(--accent-color), #059669);
+    color: white;
+    box-shadow: 0 4px 15px var(--accent-glow);
+}
+
+.primary-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px var(--accent-glow);
+}
+
+.primary-btn:disabled {
+    background: #475569;
+    box-shadow: none;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Leaderboard Specifics */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    color: var(--text-secondary);
+    font-weight: 500;
+    padding: 1rem;
+    text-align: right;
+    border-bottom: 1px solid var(--card-border);
+}
+
+td {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    color: var(--text-primary);
+}
+
+tr:hover td {
+    background: rgba(255,255,255,0.02);
+}
+
+tr:nth-child(1) td { color: var(--gold); font-weight: 800; font-size: 1.1rem; }
+tr:nth-child(2) td { color: #e2e8f0; font-weight: 700; }
+tr:nth-child(3) td { color: #cd7f32; font-weight: 700; }
+
+.points-badge {
+    background: rgba(16, 185, 129, 0.2);
+    color: var(--accent-color);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: 800;
+}
+
+/* Deadline Badges */
+.deadline-info {
+    background: rgba(251, 191, 36, 0.1) !important;
+    color: var(--gold) !important;
+    border: 1px solid rgba(251, 191, 36, 0.2);
+    padding: 0.5rem 1rem !important;
+    border-radius: 30px !important;
+    font-size: 0.9rem !important;
+    display: inline-block;
+    margin-top: 1rem;
+    box-shadow: 0 0 20px rgba(251, 191, 36, 0.1);
+}
+
+.lock-message {
+    background: rgba(239, 68, 68, 0.1) !important;
+    color: var(--danger-color) !important;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    padding: 1rem;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}

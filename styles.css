@@ -1,0 +1,374 @@
+:root {
+    --bg-color: #0b0f19;
+    --card-bg: rgba(26, 32, 44, 0.7);
+    --card-border: rgba(255, 255, 255, 0.1);
+    --primary-color: #e21e4f;
+    --primary-hover: #c01943;
+    --secondary-color: #10b981;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --gold: #fbbf24;
+    --silver: #cbd5e1;
+    --bronze: #b45309;
+    --glass-blur: blur(12px);
+    
+    --pts-5: #10b981; /* Green */
+    --pts-3: #3b82f6; /* Blue */
+    --pts-2: #eab308; /* Yellow */
+    --pts-1: #f97316; /* Orange */
+    --pts-0: #ef4444; /* Red */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Kufi Arabic', 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    background-image: 
+        radial-gradient(circle at 15% 50%, rgba(226, 30, 79, 0.15), transparent 25%),
+        radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.15), transparent 25%);
+    background-attachment: fixed;
+    color: var(--text-main);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+.app-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+/* Header & Nav */
+.app-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 3rem;
+    gap: 1.5rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo-icon {
+    font-size: 3rem;
+    filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.5));
+}
+
+h1 {
+    font-weight: 800;
+    font-size: 2.5rem;
+    background: linear-gradient(to right, #fff, #94a3b8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.main-nav {
+    display: flex;
+    gap: 0.5rem;
+    background: var(--card-bg);
+    padding: 0.5rem;
+    border-radius: 50px;
+    border: 1px solid var(--card-border);
+    backdrop-filter: var(--glass-blur);
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.nav-btn {
+    background: transparent;
+    color: var(--text-muted);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+    color: var(--text-main);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.nav-btn.active {
+    background: var(--primary-color);
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(226, 30, 79, 0.4);
+}
+
+.admin-btn {
+    color: #fca5a5;
+}
+
+/* Tab Content */
+.tab-pane {
+    display: none;
+    animation: fadeIn 0.4s ease-out forwards;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.section-header h2 {
+    font-size: 2rem;
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+
+.section-header p {
+    color: var(--text-muted);
+}
+
+/* Glassmorphism Cards */
+.glass-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    backdrop-filter: var(--glass-blur);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Tables */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card-bg);
+    border-radius: 16px;
+    overflow: hidden;
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--card-border);
+}
+
+.data-table th, .data-table td {
+    padding: 1.2rem 1rem;
+    text-align: right;
+    border-bottom: 1px solid var(--card-border);
+}
+
+.data-table th {
+    background: rgba(0, 0, 0, 0.2);
+    font-weight: 800;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+.data-table tr:last-child td {
+    border-bottom: none;
+}
+
+.data-table tbody tr {
+    transition: background-color 0.2s;
+}
+
+.data-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+/* Leaderboard Specifics */
+.rank-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-weight: 800;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+tr.rank-1 .rank-badge { background: var(--gold); color: #000; box-shadow: 0 0 15px rgba(251, 191, 36, 0.5); }
+tr.rank-2 .rank-badge { background: var(--silver); color: #000; }
+tr.rank-3 .rank-badge { background: var(--bronze); color: #fff; }
+
+.total-points {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--gold);
+}
+
+/* Buttons & Forms */
+.btn {
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    border: none;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.primary-btn {
+    background: var(--primary-color);
+    color: white;
+}
+
+.primary-btn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(226, 30, 79, 0.4);
+}
+
+.success-btn {
+    background: var(--secondary-color);
+    color: white;
+}
+
+.success-btn:hover {
+    background: #059669;
+    transform: translateY(-2px);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+input, select {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--card-border);
+    color: var(--text-main);
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(226, 30, 79, 0.2);
+}
+
+/* Grids */
+.matches-grid, .groups-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+}
+
+.match-card, .group-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    backdrop-filter: var(--glass-blur);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: transform 0.3s;
+}
+
+.match-card:hover, .group-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.match-title, .group-title {
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    text-align: center;
+    border-bottom: 1px solid var(--card-border);
+    padding-bottom: 0.5rem;
+}
+
+/* Score Pills */
+.pts-pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #fff;
+    margin-right: 8px;
+}
+
+.pts-5 { background: var(--pts-5); }
+.pts-3 { background: var(--pts-3); }
+.pts-2 { background: var(--pts-2); }
+.pts-1 { background: var(--pts-1); }
+.pts-0 { background: var(--pts-0); }
+.pts-4 { background: #6366f1; } /* 4 pts for qualifer */
+.pts-8 { background: var(--gold); color: #000; } /* 8 pts for perfect group */
+
+/* Admin Layout */
+.admin-panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.admin-panel h3 {
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--card-border);
+}
+
+.score-input-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.score-input {
+    width: 60px;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .admin-panels {
+        grid-template-columns: 1fr;
+    }
+    
+    .matches-grid, .groups-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+    }
+}
+
+.alert {
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    text-align: center;
+}
+.alert-warning {
+    background-color: rgba(234, 179, 8, 0.2);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+}
