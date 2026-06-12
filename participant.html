@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>توقعات كأس العالم 2026 - لوحة المشارك</title>
+    <link rel="stylesheet" href="participant.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>توقعات كأس العالم 2026</h1>
+            <p>الواجهة الخاصة بالمشاركين - أدخل توقعاتك وتابع الترتيب</p>
+        </header>
+
+        <nav class="nav-tabs">
+            <button class="nav-btn active" data-target="leaderboard">لوحة الشرف 🏆</button>
+            <button class="nav-btn" data-target="round1">نتائج الجولة 1</button>
+            <button class="nav-btn" data-target="qualifiers">المتأهلين</button>
+            <button class="nav-btn" data-target="round2-form">توقعات الجولة 2</button>
+            <button class="nav-btn" data-target="round3-form">توقعات الجولة 3</button>
+            <button class="nav-btn" data-target="knockouts-form">الأدوار الإقصائية</button>
+        </nav>
+
+        <main class="content-area">
+            <!-- Leaderboard Tab -->
+            <section id="leaderboard" class="tab-pane active">
+                <div class="leaderboard-table-container">
+                    <h3 class="match-title" style="font-size: 1.5rem; margin-bottom: 2rem;">ترتيب المشاركين حسب المجموع</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>المركز</th>
+                                <th>الاسم</th>
+                                <th>المجموعات</th>
+                                <th>المتأهلين</th>
+                                <th>الإقصائية</th>
+                                <th>المجموع</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard-body">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Round 1 Tab -->
+            <section id="round1" class="tab-pane">
+                <div class="leaderboard-table-container">
+                    <h3 class="match-title" style="font-size: 1.5rem; margin-bottom: 2rem;">تفاصيل الجولة الأولى</h3>
+                    <div id="round1-matches">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Qualifiers Tab -->
+            <section id="qualifiers" class="tab-pane">
+                <div class="leaderboard-table-container">
+                    <h3 class="match-title" style="font-size: 1.5rem; margin-bottom: 2rem;">توقعات المتأهلين من المجموعات</h3>
+                    <div id="qualifiers-groups">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Round 2 Form Tab -->
+            <section id="round2-form" class="tab-pane">
+                <div class="leaderboard-table-container">
+                    <div class="section-header" style="text-align:center;">
+                        <h3 class="match-title" style="font-size: 1.5rem; margin-bottom: 0.5rem;">نموذج توقعات الجولة الثانية</h3>
+                    </div>
+                    <form id="prediction-form" class="prediction-form" style="margin-top: 2rem;">
+                        <div class="form-group">
+                            <label for="participant-name">اختر اسمك:</label>
+                            <select id="participant-name" required>
+                                <option value="">-- اختر اسمك --</option>
+                                <!-- Populated by JS -->
+                            </select>
+                        </div>
+                        <div id="round2-form-matches">
+                            <!-- Populated by JS -->
+                        </div>
+                        <button type="submit" class="btn primary-btn">إرسال التوقعات 🚀</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Round 3 Form Tab -->
+            <section id="round3-form" class="tab-pane">
+                <div class="leaderboard-table-container">
+                    <div class="section-header" style="text-align:center;">
+                        <h3 class="match-title" style="font-size: 1.5rem; margin-bottom: 0.5rem;">نموذج توقعات الجولة الثالثة</h3>
+                    </div>
+                    <form id="prediction-form-r3" class="prediction-form" style="margin-top: 2rem;">
+                        <div class="form-group">
+                            <label for="participant-name-r3">اختر اسمك:</label>
+                            <select id="participant-name-r3" required>
+                                <option value="">-- اختر اسمك --</option>
+                                <!-- Populated by JS -->
+                            </select>
+                        </div>
+                        <div id="round3-form-matches">
+                            <!-- Populated by JS -->
+                        </div>
+                        <button type="submit" class="btn primary-btn">إرسال التوقعات 🚀</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Knockouts Form Tab -->
+            <section id="knockouts-form" class="tab-pane">
+                <div class="leaderboard-table-container">
+                    <div class="section-header" style="text-align:center;">
+                        <h3 class="match-title" style="font-size: 1.5rem; margin-bottom: 0.5rem;">توقعات الأدوار الإقصائية</h3>
+                    </div>
+                    <form id="prediction-form-knockouts" class="prediction-form" style="margin-top: 2rem;">
+                        <div class="form-group">
+                            <label for="participant-name-knockouts">اختر اسمك:</label>
+                            <select id="participant-name-knockouts" required>
+                                <option value="">-- اختر اسمك --</option>
+                                <!-- Populated by JS -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="knockout-round-select">اختر الدور الإقصائي:</label>
+                            <select id="knockout-round-select">
+                                <option value="r32">دور الـ 32</option>
+                                <option value="r16">دور الـ 16</option>
+                                <option value="qf">ربع النهائي</option>
+                                <option value="sf">نصف النهائي</option>
+                                <option value="final">النهائي</option>
+                            </select>
+                        </div>
+                        <div id="knockouts-form-matches" style="margin-top: 1.5rem; margin-bottom: 1.5rem;">
+                            <!-- Populated by JS -->
+                        </div>
+                        <button type="submit" class="btn primary-btn">إرسال التوقعات 🚀</button>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Logic scripts -->
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
