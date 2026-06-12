@@ -175,9 +175,9 @@ async function fetchESPNData() {
             const homeScore = parseInt(comp.competitors.find(c => c.homeAway === 'home')?.score || '0');
             const awayScore = parseInt(comp.competitors.find(c => c.homeAway === 'away')?.score || '0');
             
-            const status = event.status.type.name; // e.g. STATUS_FINAL, STATUS_IN_PROGRESS
+            const status = event.status.type.name; // e.g. STATUS_FINAL, STATUS_FULL_TIME, STATUS_IN_PROGRESS
             
-            if (status === 'STATUS_FINAL' || status === 'STATUS_IN_PROGRESS') {
+            if (status === 'STATUS_FINAL' || status === 'STATUS_FULL_TIME' || status === 'STATUS_IN_PROGRESS' || status.includes('HALFTIME')) {
                 // Find match in our group stage data
                 const allMatches = [
                     { list: APP_DATA.matchesR1, dest: appState.resultsR1 },
