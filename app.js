@@ -162,22 +162,23 @@ async function fetchESPNData() {
         let updated = false;
         
         data.events.forEach(event => {
-            const comp = event.competitions[0];
-            if (!comp) return;
-            
-            const homeTeamEng = comp.competitors.find(c => c.homeAway === 'home')?.team.name;
-            const awayTeamEng = comp.competitors.find(c => c.homeAway === 'away')?.team.name;
-            
-            // Map using TEAM_MAP from data.js
-            const homeTeam = typeof TEAM_MAP !== 'undefined' && TEAM_MAP[homeTeamEng] ? TEAM_MAP[homeTeamEng] : homeTeamEng;
-            const awayTeam = typeof TEAM_MAP !== 'undefined' && TEAM_MAP[awayTeamEng] ? TEAM_MAP[awayTeamEng] : awayTeamEng;
-            
-            const homeScore = parseInt(comp.competitors.find(c => c.homeAway === 'home')?.score || '0');
-            const awayScore = parseInt(comp.competitors.find(c => c.homeAway === 'away')?.score || '0');
-            
-            const status = event.status.type.name;
-            
-            if (!status.includes('SCHEDULED') && !status.includes('POSTPONED') && !status.includes('CANCELED')) {
+            try {
+                const comp = event.competitions?.[0];
+                if (!comp || !comp.competitors) return;
+                
+                const homeTeamEng = comp.competitors.find(c => c.homeAway === 'home')?.team?.name;
+                const awayTeamEng = comp.competitors.find(c => c.homeAway === 'away')?.team?.name;
+                
+                // Map using TEAM_MAP from data.js
+                const homeTeam = typeof TEAM_MAP !== 'undefined' && TEAM_MAP[homeTeamEng] ? TEAM_MAP[homeTeamEng] : homeTeamEng;
+                const awayTeam = typeof TEAM_MAP !== 'undefined' && TEAM_MAP[awayTeamEng] ? TEAM_MAP[awayTeamEng] : awayTeamEng;
+                
+                const homeScore = parseInt(comp.competitors.find(c => c.homeAway === 'home')?.score || '0');
+                const awayScore = parseInt(comp.competitors.find(c => c.homeAway === 'away')?.score || '0');
+                
+                const status = event.status?.type?.name || '';
+                
+                if (status && !status.includes('SCHEDULED') && !status.includes('POSTPONED') && !status.includes('CANCELED')) {
                 // Find match in our group stage data
                 const allMatches = [
                     { list: APP_DATA.matchesR1, dest: appState.resultsR1 },
@@ -245,6 +246,8 @@ async function fetchESPNData() {
                     }
                     updated = true;
                 }
+            } catch (err) {
+                console.warn("Skipped an event due to missing data", err);
             }
         });
         

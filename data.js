@@ -101,7 +101,7 @@ function normalizeNumerals(str) {
         .replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d));
 }
 
-function parseScore(str) {
+function parseScore(str, match) {
     if (!str) return null;
     const normalized = normalizeNumerals(str);
     const nums = normalized.match(/\d+/g);
@@ -112,7 +112,17 @@ function parseScore(str) {
     if (str.includes("تعادل") || str.includes("-")) return { home: 1, away: 1 };
     
     // Some only wrote names of winners. If they predicted a winner but no score, assign them a nominal 1-0 for that winner, 0-1 for loser
-    // For simplicity, we just leave it as null for now or try to extract.
+    if (match) {
+        let text = str.trim().replace("كلومبيا", "كولومبيا").replace("اورغواي", "أوروغواي").replace("اوروغواي", "أوروغواي").replace("اكوادور", "إكوادور");
+        const norm = (s) => s.replace(/[أإآا]/g, 'ا').replace(/ة/g, 'ه').replace(/[يى]/g, 'ي').replace(/ال/g, '').replace(/\s+/g, '');
+        const normText = norm(text);
+        const normHome = norm(match.home);
+        const normAway = norm(match.away);
+        
+        if (normText.includes(normHome) || normHome.includes(normText)) return { home: 1, away: 0 };
+        if (normText.includes(normAway) || normAway.includes(normText)) return { home: 0, away: 1 };
+    }
+    
     return null; 
 }
 
@@ -124,7 +134,8 @@ rawR1.split('\n').forEach(line => {
     const name = cols[25].trim();
     if(APP_DATA.predictions[name]) {
         for(let i=1; i<=24; i++) {
-            const scoreObj = parseScore(cols[i]);
+            const match = APP_DATA.matchesR1[i-1];
+            const scoreObj = parseScore(cols[i], match);
             if(scoreObj) {
                 APP_DATA.predictions[name].r1[`R1-${i}`] = scoreObj;
             }
