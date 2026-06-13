@@ -1,3 +1,4 @@
+var console = { log: function(m) { WScript.Echo(m); } }; var window = {}; var document = {};
 const TEAM_MAP = {
     "Mexico": "المكسيك", "South Africa": "جنوب أفريقيا", "RSA": "جنوب أفريقيا",
     "South Korea": "كوريا الجنوبية", "Korea Republic": "كوريا الجنوبية", "Korea": "كوريا الجنوبية",
@@ -102,7 +103,7 @@ function normalizeNumerals(str) {
 }
 
 function parseScore(str, match) {
-    if (!str || str.trim() === "") return null;
+    if (!str) return null;
     const normalized = normalizeNumerals(str);
     const nums = normalized.match(/\d+/g);
     if (nums && nums.length >= 2) {
@@ -113,20 +114,14 @@ function parseScore(str, match) {
     
     // Some only wrote names of winners. If they predicted a winner but no score, assign them a nominal 1-0 for that winner, 0-1 for loser
     if (match) {
-        let text = str.trim();
-        if (text === "") return null;
-        text = text.replace("كلومبيا", "كولومبيا").replace("اورغواي", "أوروغواي").replace("اوروغواي", "أوروغواي").replace("اكوادور", "إكوادور");
-        const norm = (s) => s ? s.replace(/[أإآا]/g, 'ا').replace(/ة/g, 'ه').replace(/[يى]/g, 'ي').replace(/ال/g, '').replace(/\s+/g, '') : "";
+        let text = str.trim().replace("كلومبيا", "كولومبيا").replace("اورغواي", "أوروغواي").replace("اوروغواي", "أوروغواي").replace("اكوادور", "إكوادور");
+        const norm = (s) => s.replace(/[أإآا]/g, 'ا').replace(/ة/g, 'ه').replace(/[يى]/g, 'ي').replace(/ال/g, '').replace(/\s+/g, '');
         const normText = norm(text);
         const normHome = norm(match.home);
         const normAway = norm(match.away);
         
-        if (normText.length > 1 && normHome.length > 1 && (normText.includes(normHome) || normHome.includes(normText))) {
-            return { home: 1, away: 0 };
-        }
-        if (normText.length > 1 && normAway.length > 1 && (normText.includes(normAway) || normAway.includes(normText))) {
-            return { home: 0, away: 1 };
-        }
+        if (normText.includes(normHome) || normHome.includes(normText)) return { home: 1, away: 0 };
+        if (normText.includes(normAway) || normAway.includes(normText)) return { home: 0, away: 1 };
     }
     
     return null; 
@@ -149,3 +144,4 @@ rawR1.split('\n').forEach(line => {
     }
 });
 
+WScript.Echo(JSON.stringify(APP_DATA.predictions[" ???\]));
