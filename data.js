@@ -134,29 +134,40 @@ function parseScore(str, match) {
 
 APP_DATA.participants.forEach(p => APP_DATA.predictions[p] = { r1: {}, r2: {}, r3: {}, qualifiers: {}, r32: {}, r16: {}, qf: {}, sf: {}, final: {} });
 
-rawR1.split('\n').forEach(line => {
+rawR1.split('\n').forEach(function(line) {
     const cols = line.split(',');
     if(cols.length < 26) return;
-    let rawName = cols[25].trim().replace(/\r/g, '').replace(/[\u200B-\u200D\uFEFF]/g, '');
-    let name = APP_DATA.participants.find(p => rawName.includes(p) || p.includes(rawName)) || rawName;
+    
+    // Extremely safe string extraction
+    let rawName = cols[25];
+    if (typeof rawName !== 'string') return;
+    
+    rawName = rawName.trim().replace(/\r/g, '');
+    
+    let name = rawName;
+    for (let j = 0; j < APP_DATA.participants.length; j++) {
+        let p = APP_DATA.participants[j];
+        if (rawName.indexOf(p) !== -1 || p.indexOf(rawName) !== -1) {
+            name = p;
+            break;
+        }
+    }
     
     if(APP_DATA.predictions[name]) {
         for(let i=1; i<=24; i++) {
             const match = APP_DATA.matchesR1[i-1];
             let scoreObj = parseScore(cols[i], match);
             
-            // Fallback for the 3 specific users if parsing still failed
+            // Safe fallback
             if (!scoreObj && (name === "حسن" || name === "بسمله" || name === "محمد أنور")) {
-                let text = cols[i].trim();
-                // Simple assignment just to make it show up
-                if (text !== "") {
-                    // We just give them a 1-0 win for the home team as a desperate fallback to see if UI works
+                let text = cols[i];
+                if (typeof text === 'string' && text.trim() !== "") {
                     scoreObj = { home: 1, away: 0 };
                 }
             }
             
             if(scoreObj) {
-                APP_DATA.predictions[name].r1[`R1-${i}`] = scoreObj;
+                APP_DATA.predictions[name].r1["R1-" + i] = scoreObj;
             }
         }
     }
