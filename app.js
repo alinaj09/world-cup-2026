@@ -246,6 +246,7 @@ async function fetchESPNData() {
                     }
                     updated = true;
                 }
+                } // This closes the if (status && !status.includes('SCHEDULED') ...) block!
             } catch (err) {
                 console.warn("Skipped an event due to missing data", err);
             }
