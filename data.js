@@ -97,8 +97,8 @@ const rawR1 = `11/06/2026 12:28:11,Mexico 2-1,South Korea 1-0,1-1,USA 2-0,Switse
 function normalizeNumerals(str) {
     if (!str) return "";
     return str
-        .replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d))
-        .replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d));
+        .replace(/[٠-٩]/g, function(d) { return "٠١٢٣٤٥٦٧٨٩".indexOf(d); })
+        .replace(/[۰-۹]/g, function(d) { return "۰۱۲۳۴۵۶۷۸۹".indexOf(d); });
 }
 
 function parseScore(str, match) {
@@ -109,22 +109,27 @@ function parseScore(str, match) {
         return { home: parseInt(nums[0]), away: parseInt(nums[1]) };
     }
     // If it's a draw mentioned without exact score, default to 1-1
-    if (str.includes("تعادل") || str.includes("-")) return { home: 1, away: 1 };
+    if (str.indexOf("تعادل") !== -1 || str.indexOf("-") !== -1) return { home: 1, away: 1 };
     
-    // Some only wrote names of winners. If they predicted a winner but no score, assign them a nominal 1-0 for that winner, 0-1 for loser
+    // Some only wrote names of winners
     if (match) {
         let text = str.trim();
         if (text === "") return null;
         text = text.replace("كلومبيا", "كولومبيا").replace("اورغواي", "أوروغواي").replace("اوروغواي", "أوروغواي").replace("اكوادور", "إكوادور");
-        const norm = (s) => s ? s.replace(/[أإآا]/g, 'ا').replace(/ة/g, 'ه').replace(/[يى]/g, 'ي').replace(/ال/g, '').replace(/\s+/g, '') : "";
+        
+        let norm = function(s) {
+            if (!s) return "";
+            return s.replace(/[أإآا]/g, 'ا').replace(/ة/g, 'ه').replace(/[يى]/g, 'ي').replace(/ال/g, '').replace(/\s+/g, '');
+        };
+        
         const normText = norm(text);
         const normHome = norm(match.home);
         const normAway = norm(match.away);
         
-        if (normText.length > 1 && normHome.length > 1 && (normText.includes(normHome) || normHome.includes(normText))) {
+        if (normText.length > 1 && normHome.length > 1 && (normText.indexOf(normHome) !== -1 || normHome.indexOf(normText) !== -1)) {
             return { home: 1, away: 0 };
         }
-        if (normText.length > 1 && normAway.length > 1 && (normText.includes(normAway) || normAway.includes(normText))) {
+        if (normText.length > 1 && normAway.length > 1 && (normText.indexOf(normAway) !== -1 || normAway.indexOf(normText) !== -1)) {
             return { home: 0, away: 1 };
         }
     }
@@ -132,13 +137,14 @@ function parseScore(str, match) {
     return null; 
 }
 
-APP_DATA.participants.forEach(p => APP_DATA.predictions[p] = { r1: {}, r2: {}, r3: {}, qualifiers: {}, r32: {}, r16: {}, qf: {}, sf: {}, final: {} });
+APP_DATA.participants.forEach(function(p) {
+    APP_DATA.predictions[p] = { r1: {}, r2: {}, r3: {}, qualifiers: {}, r32: {}, r16: {}, qf: {}, sf: {}, final: {} };
+});
 
 rawR1.split('\n').forEach(function(line) {
     const cols = line.split(',');
     if(cols.length < 26) return;
     
-    // Extremely safe string extraction
     let rawName = cols[25];
     if (typeof rawName !== 'string') return;
     
@@ -172,4 +178,3 @@ rawR1.split('\n').forEach(function(line) {
         }
     }
 });
-
